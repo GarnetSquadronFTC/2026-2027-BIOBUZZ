@@ -1,4 +1,3 @@
-apply plugin: 'com.android.application'
 
 //
 // build.gradle in TeamCode
@@ -15,15 +14,32 @@ apply plugin: 'com.android.application'
 // Include common definitions from above.
 apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
+apply plugin: 'com.android.application'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://repo.dairy.foundation/releases"
+        }
+    }
+    dependencies {
+        classpath "dev.frozenmilk:Load:0.3.1"
+    }
+}
 
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
 
     packagingOptions {
+        jniLibs {
+            pickFirsts += ['**/*.so']
+        }
         jniLibs.useLegacyPackaging true
     }
 }
 
 dependencies {
     implementation project(':FtcRobotController')
+    implementation("dev.frozenmilk.sinister:Sloth:0.3.1")
 }

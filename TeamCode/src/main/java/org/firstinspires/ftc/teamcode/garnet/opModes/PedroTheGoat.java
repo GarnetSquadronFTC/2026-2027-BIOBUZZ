@@ -5,6 +5,9 @@ import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
 import static com.pedropathing.api.Paths.*;
 import com.pedropathing.paths.Path;
+import com.pedropathing.ivy.Scheduler;
+import static com.pedropathing.ivy.Scheduler.schedule;
+import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
@@ -22,13 +25,19 @@ public class PedroTheGoat extends OpMode {
 
     @Override
     public void init(){
+        Scheduler.reset();
+
         follower = Constants.create(hardwareMap);
         follower.setPose(startPose);
     }
     @Override
     public void start() {
+        schedule(follow(follower, test()));
     }
+
     @Override
     public void loop() {
+        follower.update();
+        Scheduler.execute();
     }
 }
